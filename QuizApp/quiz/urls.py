@@ -12,5 +12,5 @@ router.register('Questiondetail',views.QuestionDetailViewset)
 urlpatterns=[
     path('',include(router.urls)),
     path('<pk>/save-answer/', views.SaveUsersAnswer.as_view()),
-    path('<pk>/result/', Resultview.as_view()),
+    path('<slug>/result/', views.Resultview.as_view()),
     ]

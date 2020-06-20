@@ -16,8 +16,7 @@ class QuestionDetailViewset(viewsets.ModelViewSet):
 
     serializer_class=QuestionSerializers
     queryset=models.Question.objects.all()
-class SaveUsersAnswer(generics.UpdateAPIView):
-	serializer_class = UsersAnswerSerializer
+
 
 
 class SaveUsersAnswer(generics.UpdateAPIView):
@@ -26,12 +25,10 @@ class SaveUsersAnswer(generics.UpdateAPIView):
 
 class Resultview(generics.UpdateAPIView):
     serializer_class=resultserializers
-
     queryset=models.UsersAnswer.objects.all()
 
 
     def post(self,request,*args,**kwargs):
-        quiz = Quiz.objects.get(slug=self.kwargs['slug'])
         correct_answers=0
         for users_answer in UsersAnswer.objects.all():
             answer=Answer.objects.get(question=users_answer.question, is_correct=True)
@@ -40,5 +37,5 @@ class Resultview(generics.UpdateAPIView):
             if users_answer.answer==answer:
                 correct_answers+=1
         result.score=correct_answers
+        print(result.score)
         result.save()
-        return Response(self.get_serializer(quiz).data)
