@@ -41,6 +41,10 @@ class UsersAnswer(models.Model):
 	def __str__(self):
 		return self.question.label
 
+class result(models.Model):
+	quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
+	score=models.IntegerField(default=0)
+
 
 @receiver(pre_save, sender=Quiz)
 def slugify_name(sender, instance, *args, **kwargs):

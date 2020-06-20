@@ -1,4 +1,4 @@
-from quiz.models import Quiz,Question, Answer, UsersAnswer
+from quiz.models import Quiz,Question, Answer, UsersAnswer,result
 from rest_framework import serializers
 
 class QuizListSerializer(serializers.ModelSerializer):
@@ -23,4 +23,10 @@ class QuestionSerializers(serializers.ModelSerializer):
 class UsersAnswerSerializer(serializers.ModelSerializer):
     class Meta:
         model=UsersAnswer
+        fields="__all__"
+class resultserializers(serializers.ModelSerializer):
+    question_set=QuestionSerializers(many=True)
+
+    class Meta:
+        model=result
         fields="__all__"
