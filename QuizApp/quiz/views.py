@@ -18,24 +18,31 @@ class QuestionDetailViewset(viewsets.ModelViewSet):
     queryset=models.Question.objects.all()
 
 
-
 class SaveUsersAnswer(generics.UpdateAPIView):
     serializer_class=UsersAnswerSerializer
     queryset=models.UsersAnswer.objects.all()
 
-class Resultview(generics.UpdateAPIView):
+class Resultview(generics.GenericAPIView):
     serializer_class=resultserializers
     queryset=models.UsersAnswer.objects.all()
+    def post(self, request, *args, **kwargs):
+        question_id = request.data['question']
+        answer_id = request.data['answer']
+
+        question = get_object_or_404(Question, id=question_id)
+        quiz = Quiz.objects.get(slug=self.kwargs['slug'])
+        correct_answers = 0
 
 
-    def post(self,request,*args,**kwargs):
-        correct_answers=0
         for users_answer in UsersAnswer.objects.all():
-            answer=Answer.objects.get(question=users_answer.question, is_correct=True)
+            answer = Answer.objects.get(question=users_answer.question, is_correct=True)
             print(answer)
             print(users_answer.answer)
-            if users_answer.answer==answer:
-                correct_answers+=1
-        result.score=correct_answers
-        print(result.score)
-        result.save()
+            if users_answer.answer == answer:
+                correct_answers += 1
+
+                result.score =correct_answers
+                print(result.score)
+                result.save()
+
+                return Response(self.get_serializer(quiz).data)

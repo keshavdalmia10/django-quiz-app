@@ -25,7 +25,9 @@ class UsersAnswerSerializer(serializers.ModelSerializer):
         model=UsersAnswer
         fields="__all__"
 class resultserializers(serializers.ModelSerializer):
-    question_set=QuestionSerializers(many=True)
+    usersanswer_set = UsersAnswerSerializer(many=True)
+    question_set = QuestionSerializers(many=True)
+
 
     class Meta:
         model=result
