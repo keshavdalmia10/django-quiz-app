@@ -26,12 +26,12 @@ class Resultview(generics.GenericAPIView):
     serializer_class=resultserializers
 
     def post(self, request, *args, **kwargs):
-        result_id = request.data['result']
-        question_id = request.data['question']
-        answer_id = request.data['answer']
+#        result_id = request.data['result']
+#        question_id = request.data['question']
+#        answer_id = request.data['answer']
 
-        result = get_object_or_404(QuizTaker, id=result_id)
-        question = get_object_or_404(Question, id=question_id)
+        Result = get_object_or_404(result, id=1)
+        question = get_object_or_404(Question, id=1)
 
         quiz = Quiz.objects.get(slug=self.kwargs['slug'])
 
@@ -47,8 +47,8 @@ class Resultview(generics.GenericAPIView):
             if users_answer.answer == answer:
                 correct_answers += 1
 
-        result.score =  correct_answers
-        print(result.score)
-        result.save()
+        Result.score =  correct_answers
+        print(Result.score)
+        Result.save()
 
         return Response(self.get_serializer(quiz).data)
